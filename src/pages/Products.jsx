@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 const Products = () => {
   const [product, setProduct] = useState([]);
 
@@ -31,7 +32,7 @@ const Products = () => {
                 </div>
                 <div className="card-footer d-flex justify-content-between">
                   <span className="fw-bold">${p.price}</span>
-                  <button className="btn btn-primary btn-sm">Compra</button>
+                  <Link className="btn btn-primary btn-sm" to={`/products/${p.id}`}>Compra</Link>
                 </div>
               </div>
             </div>
