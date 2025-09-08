@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 const ProductDetail = () => {
   const { id } = useParams()
   const [product, setProduct] = useState({})
+  const navigate = useNavigate();
   useEffect(() => {
-    axios.get(`https://fakestoreapi.com/products/${id}`).then(res => setProduct(res.data))
+    axios.get(`https://fakestoreapi.com/products/${id}`).then(res => setProduct(res.data)).catch(() => navigate("/products"))
 
-  }, [id])
-  return (
+  }, [id, navigate])
+  const handleNavigate = (direction) => {
+    const newId = direction === "prev" ? parseInt(id) - 1 : parseInt(id) + 1;
+    navigate(`/products/${newId}`);
+  };
+  return (<div className="container">
     <div className="card h-100 shadow-sm">
       <img
         src={product.image}
@@ -26,6 +31,16 @@ const ProductDetail = () => {
         <button className="btn btn-primary btn-sm" to={`#`}>Compra</button>
       </div>
     </div>
+    <div className="d-flex justify-content-between mt-3">
+      <button className="btn btn-primary" onClick={() => navigate(`/products/${parseInt(id) - 1}`)} disabled={parseInt(id) <= 1}>
+        Prodotto precedente
+      </button>
+      <button className="btn btn-primary" onClick={() => navigate(`/products/${parseInt(id) + 1}`)}>
+        Prodotto successivo
+      </button>
+
+    </div>
+  </div>
   )
 }
 
