@@ -6,13 +6,9 @@ const ProductDetail = () => {
   const [product, setProduct] = useState({})
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get(`https://fakestoreapi.com/products/${id}`).then(res => setProduct(res.data)).catch(() => navigate("/products"))
-
+    axios.get(`https://fakestoreapi.com/products/${id}`).then((res) => { if (res.data !== "") { setProduct(res.data) } else { navigate("/products") } })
   }, [id, navigate])
-  const handleNavigate = (direction) => {
-    const newId = direction === "prev" ? parseInt(id) - 1 : parseInt(id) + 1;
-    navigate(`/products/${newId}`);
-  };
+
   return (<div className="container">
     <div className="card h-100 shadow-sm">
       <img
